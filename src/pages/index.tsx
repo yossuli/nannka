@@ -42,6 +42,7 @@ const SideBar = (props: SideChangeButtonModel) => {
       ),
       []
     );
+
   const SliderButton = () => {
     const [pos, setPos] = useState<number>();
     const elm = useRef(null);
@@ -53,6 +54,7 @@ const SideBar = (props: SideChangeButtonModel) => {
         elm.current?.getBoundingClientRect().y + elm.current?.getBoundingClientRect().height;
       const maxMin = (n: number) =>
         Math.max(buttonY, Math.min(n, elm.current?.getBoundingClientRect().y));
+
       return (
         <div
           className={styles['slider-main']}
@@ -74,7 +76,7 @@ const SideBar = (props: SideChangeButtonModel) => {
             <div
               className={styles['slider-button']}
               onDragStart={(e) => e.dataTransfer.setDragImage(new Image(), 0, 0)}
-              draggable
+              draggable={false}
             />
           </div>
         </div>
@@ -131,6 +133,37 @@ const Home = () => {
     document.oncontextmenu = () => false;
     newCanvas[y][x] = 'ffffff';
     setCanvas(newCanvas);
+  };
+  const generate = () => {
+    let result = '[';
+    canvas.forEach((row) => {
+      result += '[';
+      row.forEach((color) => {
+        result += String(color);
+        result += ',';
+      });
+      result += ']';
+    });
+    result += ']';
+
+    return result;
+  };
+  const generate2 = () => {
+    const IGNORE: string[] = [];
+    const BEFORE = '';
+    const AFTER = '';
+    let result = '[';
+    canvas.forEach((row) =>
+      row.forEach((color) => {
+        if (!IGNORE.includes(color)) {
+          result += BEFORE;
+          result += String(color);
+          result += AFTER;
+        }
+      })
+    );
+
+    return result;
   };
   return (
     <div className={styles.container}>
