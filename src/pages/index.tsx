@@ -45,23 +45,24 @@ const SideBar = (props: SideChangeButtonModel) => {
 
   const SliderButton = () => {
     const [pos, setPos] = useState<number>();
-    const elm = useRef(null);
-
+    const elm = useRef<HTMLDivElement>(null);
     return useMemo(() => {
-      const pxToVmin = 4 / elm.current?.getBoundingClientRect().width;
-      const vminToPx = elm.current?.getBoundingClientRect().width / 4;
-      const buttonY =
-        elm.current?.getBoundingClientRect().y + elm.current?.getBoundingClientRect().height;
-      const maxMin = (n: number) =>
-        Math.max(buttonY, Math.min(n, elm.current?.getBoundingClientRect().y));
+      const elmCurrentGetBoundingClientRectY = () => elm.current?.getBoundingClientRect().y ?? 0;
+      const elmCurrentGetBoundingClientRectWidth = () =>
+        elm.current?.getBoundingClientRect().width ?? 4;
+      const elmCurrentGetBoundingClientRectHeight = () =>
+        elm.current?.getBoundingClientRect().height ?? 0;
+
+      const pxToVmin = 4 / elmCurrentGetBoundingClientRectWidth();
+      const vminToPx = () => elmCurrentGetBoundingClientRectWidth() / 4;
+      const buttonY = elmCurrentGetBoundingClientRectY() + elmCurrentGetBoundingClientRectHeight();
 
       return (
         <div
           className={styles['slider-main']}
           style={{ gridRowStart: 2, gridRowEnd: 4 }}
           onClick={(e) => {
-            console.log(e.clientY);
-            setPos(e.clientY);
+            setPos(e.clientY - 1.5 * vminToPx());
           }}
           ref={elm}
         >
@@ -69,7 +70,15 @@ const SideBar = (props: SideChangeButtonModel) => {
             <div
               style={{
                 height: `${
-                  (pos === undefined ? 0 : pos - elm.current?.getBoundingClientRect().y) * pxToVmin
+                  (pos === undefined
+                    ? 0
+                    : Math.max(
+                        0,
+                        Math.min(
+                          buttonY - 3 * vminToPx() - elmCurrentGetBoundingClientRectY(),
+                          pos - elmCurrentGetBoundingClientRectY()
+                        )
+                      )) * pxToVmin
                 }vmin`,
               }}
             />
