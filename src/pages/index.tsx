@@ -1,57 +1,173 @@
+import type { SetStateAction } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
+
 import styles from './index.module.css';
 
+type SideChangeButtonModel = {
+  side: boolean;
+  setSide: (value: SetStateAction<boolean>) => void;
+  canvas: string[][];
+  setCanvas: (value: SetStateAction<string[][]>) => void;
+};
+
+const SideBar = (props: SideChangeButtonModel) => {
+  const { side, setSide, canvas, setCanvas } = props;
+  const changeSide = useCallback(() => {
+    setSide(!side);
+  }, [side, setSide]);
+  const ChangeCanvas = () =>
+    useMemo(
+      () => (
+        <>
+          <button
+            className={styles.plus}
+            onClick={() => {
+              const newCanvas = [
+                ...canvas.map((row) => [...row, 'ffffff']),
+                [...canvas[0], ''].map(() => 'ffffff'),
+              ];
+              setCanvas(newCanvas);
+            }}
+          />
+          <div
+            className={styles.minus}
+            onClick={() => {
+              const newCanvas = canvas
+                .slice(0, canvas.length - 1)
+                .map((row) => row.slice(0, row.length - 1));
+              setCanvas(newCanvas.length <= 0 ? [['ffffff']] : newCanvas);
+            }}
+          />
+        </>
+      ),
+      []
+    );
+  const SliderButton = () => {
+    const [pos, setPos] = useState<number>();
+    const elm = useRef(null);
+
+    return useMemo(() => {
+      const pxToVmin = 4 / elm.current?.getBoundingClientRect().width;
+      const vminToPx = elm.current?.getBoundingClientRect().width / 4;
+      const buttonY =
+        elm.current?.getBoundingClientRect().y + elm.current?.getBoundingClientRect().height;
+      const maxMin = (n: number) =>
+        Math.max(buttonY, Math.min(n, elm.current?.getBoundingClientRect().y));
+      return (
+        <div
+          className={styles['slider-main']}
+          style={{ gridRowStart: 2, gridRowEnd: 4 }}
+          onClick={(e) => {
+            console.log(e.clientY);
+            setPos(e.clientY);
+          }}
+          ref={elm}
+        >
+          <div className={styles['slider-button-wrapper']}>
+            <div
+              style={{
+                height: `${
+                  (pos === undefined ? 0 : pos - elm.current?.getBoundingClientRect().y) * pxToVmin
+                }vmin`,
+              }}
+            />
+            <div
+              className={styles['slider-button']}
+              onDragStart={(e) => e.dataTransfer.setDragImage(new Image(), 0, 0)}
+              draggable
+            />
+          </div>
+        </div>
+      );
+    }, [pos]);
+  };
+  return (
+    <div className={styles.side}>
+      <div className={styles.change} onClick={changeSide} />
+      <SliderButton />
+      <ChangeCanvas />
+    </div>
+  );
+};
+type PixelModel = {
+  color: string;
+  canvas: string[][];
+  pos: { x: number; y: number };
+  clickL: (x: number, y: number) => void;
+  clickR: (x: number, y: number) => void;
+};
+
+const Pixel = (props: PixelModel) => {
+  const { color, canvas, pos, clickL, clickR } = props;
+  return (
+    <div
+      className={styles.pixel}
+      style={{
+        backgroundColor: `#${color}`,
+        width: `${100 / canvas[0].length}%`,
+        height: `${100 / canvas.length}%`,
+      }}
+      onClick={() => {
+        clickL(pos.x, pos.y);
+      }}
+      onContextMenu={() => {
+        clickR(pos.x, pos.y);
+      }}
+    />
+  );
+};
+
 const Home = () => {
+  const [side, setSide] = useState(true);
+  const [canvas, setCanvas] = useState([['ffffff']]);
+  const [colors, setColors] = useState(['000000']);
+  const [nowColor, setNowColor] = useState(0);
+  const newCanvas = JSON.parse(JSON.stringify(canvas));
+  const clickL = (x: number, y: number) => {
+    newCanvas[y][x] = colors[nowColor];
+    setCanvas(newCanvas);
+  };
+  const clickR = (x: number, y: number) => {
+    document.oncontextmenu = () => false;
+    newCanvas[y][x] = 'ffffff';
+    setCanvas(newCanvas);
+  };
   return (
     <div className={styles.container}>
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code} style={{ backgroundColor: '#fafafa' }}>
-            pages/index.js
-          </code>
-        </p>
-
-        <div className={styles.grid}>
-          <a className={styles.card} href="https://nextjs.org/docs">
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a className={styles.card} href="https://nextjs.org/learn">
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a className={styles.card} href="https://github.com/vercel/next.js/tree/master/examples">
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            className={styles.card}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>Instantly deploy your Next.js site to a public URL with Vercel.</p>
-          </a>
+      <div className={styles.header}>
+        {colors.map((color, i) => (
+          <div
+            className={styles.color}
+            key={i}
+            style={{
+              backgroundColor: `#${color}`,
+              borderColor: `#${color}`,
+              gridColumn: `${i + 1}`,
+            }}
+            onClick={() => setNowColor(i)}
+          />
+        ))}
+      </div>
+      <div className={styles.main}>
+        {side && <SideBar side={side} setSide={setSide} canvas={canvas} setCanvas={setCanvas} />}
+        <div className={styles.canvas}>
+          {canvas.map((row, y) =>
+            row.map((color, x) => (
+              <Pixel
+                key={`${y}-${x}`}
+                color={color}
+                canvas={canvas}
+                pos={{ x, y }}
+                clickL={clickL}
+                clickR={clickR}
+              />
+            ))
+          )}
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <img src="vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
+        {!side && (
+          <SideBar side={side} setSide={setSide} canvas={newCanvas} setCanvas={setCanvas} />
+        )}
+      </div>
     </div>
   );
 };
