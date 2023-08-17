@@ -8,6 +8,9 @@ type SideChangeButtonModel = {
   setSide: (value: SetStateAction<boolean>) => void;
   canvas: string[][];
   setCanvas: (value: SetStateAction<string[][]>) => void;
+  colors: string[];
+  setColors: (value: SetStateAction<string[]>) => void;
+  generate: ((array: string[][]) => string)[];
 };
 
 const SideBar = (props: SideChangeButtonModel) => {
@@ -143,9 +146,9 @@ const Home = () => {
     newCanvas[y][x] = 'ffffff';
     setCanvas(newCanvas);
   };
-  const generate = () => {
+  const generate = (array: string[][]) => {
     let result = '[';
-    canvas.forEach((row) => {
+    array.forEach((row) => {
       result += '[';
       row.forEach((color) => {
         result += String(color);
@@ -157,12 +160,12 @@ const Home = () => {
 
     return result;
   };
-  const generate2 = () => {
+  const generate2 = (array: string[][]) => {
     const IGNORE: string[] = [];
     const BEFORE = '';
     const AFTER = '';
     let result = '[';
-    canvas.forEach((row) =>
+    array.forEach((row) =>
       row.forEach((color) => {
         if (!IGNORE.includes(color)) {
           result += BEFORE;
@@ -191,7 +194,17 @@ const Home = () => {
         ))}
       </div>
       <div className={styles.main}>
-        {side && <SideBar side={side} setSide={setSide} canvas={canvas} setCanvas={setCanvas} />}
+        {side && (
+          <SideBar
+            side={side}
+            setSide={setSide}
+            canvas={canvas}
+            setCanvas={setCanvas}
+            colors={colors}
+            setColors={setColors}
+            generate={[generate, generate2]}
+          />
+        )}
         <div className={styles.canvas}>
           {canvas.map((row, y) =>
             row.map((color, x) => (
@@ -207,7 +220,15 @@ const Home = () => {
           )}
         </div>
         {!side && (
-          <SideBar side={side} setSide={setSide} canvas={newCanvas} setCanvas={setCanvas} />
+          <SideBar
+            side={side}
+            setSide={setSide}
+            canvas={newCanvas}
+            setCanvas={setCanvas}
+            colors={colors}
+            setColors={setColors}
+            generate={[generate, generate2]}
+          />
         )}
       </div>
     </div>
