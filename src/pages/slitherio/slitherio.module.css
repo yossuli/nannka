@@ -1,0 +1,17 @@
+.container{
+  width:100vw;
+  height:100vh;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  grid-template:
+    '. .      .'
+    '.  game  .'
+    '. .      .';
+  grid-template-rows: 1fr 90vmin 1fr;
+  grid-template-columns: 1fr 90vmin 1fr;
+}
+
+.game{
+  grid-area: game;
+}
