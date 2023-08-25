@@ -13,12 +13,21 @@ const CLASS_NAMES = {
   number: styles.number,
 };
 
-const Cell = ({ cellValue, onClick }: { cellValue: number; onClick: () => void }) => {
+const Cell = ({
+  cellValue,
+  onClick,
+  onContextMenu,
+}: {
+  cellValue: number;
+  onClick: () => void;
+  onContextMenu: () => void;
+}) => {
   return (
     <div
       className={CELL_STYLE_HANDLER(cellValue, CLASS_NAMES)}
       style={!HAS_FLAG(cellValue) ? { backgroundPositionX: `${7.67 * (cellValue - 1)}%` } : {}}
       onClick={onClick}
+      onContextMenu={onContextMenu}
     />
   );
 };
@@ -34,23 +43,34 @@ const Home = () => {
     if (isFirstClick()) {
       const newBombMap = deepCopy<(0 | 1)[][]>(bombMap);
       newBombMap[y][x] = 1;
-      aroundCellToArray(bombMap, x, y).forEach(({ x: i, y: j }) => (newBombMap[j][i] = 1));
+      const around = (n: 0 | 1) =>
+        aroundCellToArray(bombMap, x, y).forEach((cell) => {
+          console.log('a');
+          newBombMap[cell.y][cell.x] = n;
+        });
+      around(1);
       const randomBomb = () => {
         const i = Math.floor(Math.random() * userInputs[0].length);
         const j = Math.floor(Math.random() * userInputs.length);
-        if (newBombMap[j][i] & 1) {
+        if (newBombMap[j][i] === 1) {
           randomBomb();
         }
         newBombMap[j][i] = 1;
       };
       [...Array(10)].forEach(randomBomb);
       newBombMap[y][x] = 0;
-      aroundCellToArray(bombMap, x, y).forEach(({ x: i, y: j }) => (newBombMap[j][i] = 0));
+      around(0);
       setBombMap(newBombMap);
     }
     const newUserInputs = deepCopy<(0 | 1 | 2)[][]>(userInputs);
     newUserInputs[y][x] = 1;
-    console.log(1);
+    setUserInputs(newUserInputs);
+  };
+  const clickR = (x: number, y: number) => {
+    document.getElementsByTagName('html')[0].oncontextmenu = () => false;
+    console.log('a');
+    const newUserInputs = deepCopy<(0 | 1 | 2)[][]>(userInputs);
+    newUserInputs[y][x] = userInputs[y][x] === 0 ? 2 : userInputs[y][x] === 2 ? 0 : 1;
     setUserInputs(newUserInputs);
   };
   return (
@@ -61,7 +81,12 @@ const Home = () => {
       >
         {board.map((row, y) =>
           row.map((value, x) => (
-            <Cell cellValue={value} key={`${y}-${x}`} onClick={() => clickL(x, y)} />
+            <Cell
+              cellValue={value}
+              key={`${y}-${x}`}
+              onClick={() => clickL(x, y)}
+              onContextMenu={() => clickR(x, y)}
+            />
           ))
         )}
       </div>

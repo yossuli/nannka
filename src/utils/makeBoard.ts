@@ -29,9 +29,8 @@ const countAroundBombsNum = (bombMap: BoardModel, x: number, y: number) =>
 
 export const makeBoard = (bombMap: BoardModel, userInputs: BoardModel): BoardModel => {
   const openSurroundingCells = (x: number, y: number) => {
-    newBoard[y][x] &= ~0b1111;
-    newBoard[y][x] = countAroundBombsNum(bombMap, x, y);
-    console.log(newBoard[y][x]);
+    newBoard[y][x] &= ~0b11111;
+    newBoard[y][x] |= countAroundBombsNum(bombMap, x, y);
     if (IS_BLANK_CELL(newBoard[y][x])) {
       aroundCellToArray(newBoard, x, y).forEach((nextPos) => {
         openSurroundingCells(nextPos.x, nextPos.y);
@@ -39,10 +38,11 @@ export const makeBoard = (bombMap: BoardModel, userInputs: BoardModel): BoardMod
     }
   };
   const newBoard = bombMap.map((row) => row.map(() => CELL_FLAGS['block']));
+  const putFlag = (x: number, y: number) => {
+    newBoard[y][x] |= CELL_FLAGS['flag'];
+  };
   userInputs.forEach((row, y) =>
-    row.forEach((val, x) =>
-      val === 1 ? openSurroundingCells(x, y) : val === 2 && newBoard[y][x] | CELL_FLAGS['flag']
-    )
+    row.forEach((val, x) => (val === 1 ? openSurroundingCells(x, y) : val === 2 && putFlag(x, y)))
   );
 
   return newBoard;
