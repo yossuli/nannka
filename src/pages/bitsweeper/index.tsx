@@ -45,7 +45,6 @@ const Home = () => {
       newBombMap[y][x] = 1;
       const around = (n: 0 | 1) =>
         aroundCellToArray(bombMap, x, y).forEach((cell) => {
-          console.log('a');
           newBombMap[cell.y][cell.x] = n;
         });
       around(1);

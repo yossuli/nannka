@@ -24,4 +24,4 @@ export const CELL_STYLE_HANDLER = (
     .map((cellStyle) => styles[cellStyle])
     .reduce((str, style) => ` ${style} ${str}`, styles.number);
 
-export const IS_BLANK_CELL = (flag: number) => !Boolean(flag & 0b1111);
+export const IS_BLANK_CELL = (flag: number) => !(flag & 0b1111);
