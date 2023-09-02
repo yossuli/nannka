@@ -6,25 +6,34 @@
   align-items: center;
 }
 
+.character-board,
 .board {
+  top: 0;
+  left: 0;
   display: grid;
-  height: 90vmin;
-  width: 90vmin;
+  position: absolute;
+  overflow: hidden;
+  transition: transform linear;
+}
+
+.board {
   background-color: #888;
 }
 
 .cell {
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template: repeat(8, 1fr) / repeat(8, 1fr);
+  aspect-ratio: 1;
+  width: 20vmin;
+  border: solid 1px #000;
 }
 
-.player {
-  width: 90%;
-  height: 90%;
-  background-color: #f00;
-  border-radius: 50%;
+.yusha {
+  /* position: absolute;
+  top: calc(50% - 10vmin);
+  left: calc(50% - 10vmin); */
+  width: 20vmin;
+  aspect-ratio: 1;
+  display: grid;
+  grid-template: repeat(8, 1fr) / repeat(8, 1fr);
 }
 
 .pixel {
