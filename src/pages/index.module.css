@@ -13,7 +13,8 @@
   display: grid;
   position: absolute;
   overflow: hidden;
-  transition: transform linear;
+  transition: transform;
+  transition-timing-function: initial;
 }
 
 .board {
