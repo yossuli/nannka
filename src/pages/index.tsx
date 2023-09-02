@@ -44,63 +44,9 @@ const Home = () => {
 
   const [windowSize, setWindowSize] = useState<[number, number]>([0, 0]);
 
-  const [pos, setPos] = useState<[number, number]>();
+  const [pos, setPos] = useState<[number, number]>([0, 0]);
 
-  const board = [...Array(20)].map(() => [...Array(20)].map((_, a) => a + 2));
-  useEffect(() => {
-    const keydown = (event: WindowEventMap['keydown']) => {
-      const process: Record<string, () => void> = {
-        d: () => {
-          setPlayer({ ...player, x: Math.min(player.x + 1, board[0].length - 1), dir: 2 });
-          if (player.y === board[0].length - 1) return;
-          setPos([-1, 0]);
-        },
-        a: () => {
-          setPlayer({ ...player, x: Math.max(0, player.x - 1), dir: 0 });
-          if (player.x === 0) return;
-          setPos([1, 0]);
-        },
-        s: () => {
-          setPlayer({ ...player, y: Math.min(board.length - 1, player.y + 1), dir: 1 });
-          if (player.y === board.length - 1) return;
-          setPos([0, -1]);
-        },
-        w: () => {
-          setPlayer({ ...player, y: Math.max(0, player.y - 1), dir: 3 });
-          if (player.y === 0) return;
-          setPos([0, 1]);
-        },
-        l: () => {
-          setPlayer({
-            ...player,
-            hp: player.hp + 10,
-            items: { ...player.items, 薬草A: player.items?.薬草A - 1 },
-          });
-        },
-      };
-      process[event.key]?.();
-    };
-    window.addEventListener('keydown', keydown);
-    return () => {
-      window.removeEventListener('keydown', keydown);
-    };
-  }, [player, board]);
-  board[player.y][player.x] = 1;
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowSize([window.innerWidth, window.innerHeight]);
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  useEffect(() => {
-    if (pos?.[0] !== 0 || pos?.[1] !== 0) {
-      setTimeout(() => setPos([0, 0]), 500);
-    }
-  }, [pos]);
+  const board = [...Array(20)].map((_, b) => [...Array(20)].map((_, a) => a + b + 2));
 
   const computedVmin = useMemo(() => Math.min(windowSize[0], windowSize[1]) / 100, [windowSize]);
 
@@ -120,27 +66,87 @@ const Home = () => {
 
   const correctionY = -Math.min(displayTop, 0) - Math.max(displayBottom - board.length, 0);
 
+  useEffect(() => {
+    const keydown = (event: WindowEventMap['keydown']) => {
+      const process: Record<string, () => void> = {
+        d: () => {
+          setPlayer({ ...player, x: Math.min(player.x + 1, board[0].length - 1), dir: 2 });
+          if (player.x >= board[0].length - VERTICAL_DISTANCE_FROM_CENTER) return;
+          if (player.x <= VERTICAL_DISTANCE_FROM_CENTER - 2) return;
+          setPos([-1, 0]);
+        },
+        a: () => {
+          setPlayer({ ...player, x: Math.max(0, player.x - 1), dir: 0 });
+          if (player.x >= board[0].length + 1 - VERTICAL_DISTANCE_FROM_CENTER) return;
+          if (player.x <= VERTICAL_DISTANCE_FROM_CENTER - 1) return;
+          setPos([1, 0]);
+        },
+        s: () => {
+          setPlayer({ ...player, y: Math.min(board.length - 1, player.y + 1), dir: 1 });
+          if (player.y >= board.length - HORIZONTAL_DISTANCE_FROM_CENTER) return;
+          if (player.y <= HORIZONTAL_DISTANCE_FROM_CENTER - 2) return;
+          setPos([0, -1]);
+        },
+        w: () => {
+          setPlayer({ ...player, y: Math.max(0, player.y - 1), dir: 3 });
+          if (player.y >= board.length + 1 - HORIZONTAL_DISTANCE_FROM_CENTER) return;
+          if (player.y <= HORIZONTAL_DISTANCE_FROM_CENTER - 1) return;
+          setPos([0, 1]);
+        },
+        l: () => {
+          setPlayer({
+            ...player,
+            hp: player.hp + 10,
+            items: { ...player.items, 薬草A: player.items?.薬草A - 1 },
+          });
+        },
+      };
+      process[event.key]?.();
+    };
+    window.addEventListener('keydown', keydown);
+    return () => {
+      window.removeEventListener('keydown', keydown);
+    };
+  }, [player, board, HORIZONTAL_DISTANCE_FROM_CENTER, VERTICAL_DISTANCE_FROM_CENTER]);
+  board[player.y][player.x] = 1;
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowSize([window.innerWidth, window.innerHeight]);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (pos?.[0] !== 0 || pos?.[1] !== 0) {
+      setTimeout(() => setPos([0, 0]), 500);
+    }
+  }, [pos]);
+
   const cattedBoard = board
     .map((row) => row.slice(displayLeft + correctionX, displayRight + correctionX))
     .slice(displayTop + correctionY, displayBottom + correctionY);
-  console.log(windowSize);
-  console.table(cattedBoard);
+
   return (
     <div className={styles.container}>
       <div
         className={styles.board}
         style={{
           gridTemplate: `repeat(${cattedBoard.length}, 1fr) / repeat(${cattedBoard[0]?.length}, 1fr)`,
-          transform: `translateY(${(pos ?? [0, 0])[1] * 20 * computedVmin}px) translateX(${
-            (pos ?? [0])[0] * 20 * computedVmin
+          transform: `translateY(${pos[1] * -20 * computedVmin}px) translateX(${
+            pos[0] * -20 * computedVmin
           }px)`,
-          transition: pos?.[0] === 0 && pos[1] === 0 ? '0s' : '0.5s',
+          transition: pos[0] === 0 && pos[1] === 0 ? '0.25s' : '0ms',
         }}
       >
         {cattedBoard.map((row, y) =>
           row.map((val, x) => (
             <div className={styles.cell} key={`${x}-${y}`}>
-              {pos?.[0] === 0 && pos[1] === 0 && <>{val}</>}
+              {/* {pos?.[0] === 0 && pos[1] === 0 &&  */}
+              <>{val}</>
+              {/* } */}
             </div>
           ))
         )}
