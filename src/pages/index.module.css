@@ -8,8 +8,6 @@
 
 .character-board,
 .board {
-  top: 0;
-  left: 0;
   display: grid;
   position: absolute;
   overflow: hidden;
@@ -28,9 +26,6 @@
 }
 
 .yusha {
-  /* position: absolute;
-  top: calc(50% - 10vmin);
-  left: calc(50% - 10vmin); */
   width: 20vmin;
   aspect-ratio: 1;
   display: grid;
