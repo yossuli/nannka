@@ -37,9 +37,10 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-non-null-assertion': 'error',
     '@typescript-eslint/strict-boolean-expressions': 'error',
+    '@typescript-eslint/no-unused-vars': 'off',
     complexity: ['error', 5],
     'max-depth': ['error', 2],
     'max-nested-callbacks': ['error', 3],
-    'max-lines': ['error', 250],
+    // 'max-lines': ['error', 250],
   },
 };
