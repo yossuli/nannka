@@ -93,6 +93,110 @@ const Home = () => {
           if (player.y < HORIZONTAL_DISTANCE_FROM_CENTER) return;
           setPos([0, -1]);
         },
+        q: () => {
+          const newPos: [number, number] = [0, 0];
+          setPlayer({
+            ...player,
+            x: Math.max(0, player.x - 1),
+            y: Math.max(0, player.y - 1),
+            dir: 3,
+          });
+          if (
+            [
+              (player.y <= board.length - HORIZONTAL_DISTANCE_FROM_CENTER,
+              player.y >= HORIZONTAL_DISTANCE_FROM_CENTER),
+            ].every(Boolean)
+          ) {
+            newPos[1] = -1;
+          }
+          if (
+            [
+              player.x <= board[0].length - VERTICAL_DISTANCE_FROM_CENTER,
+              player.x >= VERTICAL_DISTANCE_FROM_CENTER,
+            ].every(Boolean)
+          ) {
+            newPos[0] = -1;
+          }
+          setPos(newPos);
+        },
+        e: () => {
+          const newPos: [number, number] = [0, 0];
+          setPlayer({
+            ...player,
+            x: Math.min(player.x + 1, board[0].length - 1),
+            y: Math.max(0, player.y - 1),
+            dir: 2,
+          });
+          if (
+            [
+              player.x <= board[0].length - 1 - VERTICAL_DISTANCE_FROM_CENTER,
+              player.x >= VERTICAL_DISTANCE_FROM_CENTER - 1,
+            ].every(Boolean)
+          ) {
+            newPos[0] = 1;
+          }
+          if (
+            [
+              player.y <= board.length - HORIZONTAL_DISTANCE_FROM_CENTER,
+              player.y >= HORIZONTAL_DISTANCE_FROM_CENTER,
+            ].every(Boolean)
+          ) {
+            newPos[1] = -1;
+          }
+          setPos(newPos);
+        },
+        z: () => {
+          const newPos: [number, number] = [0, 0];
+          setPlayer({
+            ...player,
+            x: Math.max(0, player.x - 1),
+            y: Math.min(board.length - 1, player.y + 1),
+            dir: 0,
+          });
+          if (
+            [
+              player.x <= board[0].length - VERTICAL_DISTANCE_FROM_CENTER,
+              player.x >= VERTICAL_DISTANCE_FROM_CENTER,
+            ].every(Boolean)
+          ) {
+            newPos[0] = -1;
+          }
+          if (
+            [
+              player.y <= board.length - 1 - HORIZONTAL_DISTANCE_FROM_CENTER,
+              player.y >= HORIZONTAL_DISTANCE_FROM_CENTER - 1,
+            ].every(Boolean)
+          ) {
+            newPos[1] = 1;
+          }
+          setPos(newPos);
+        },
+        c: () => {
+          const newPos: [number, number] = [0, 0];
+          setPlayer({
+            ...player,
+            x: Math.min(player.x + 1, board[0].length - 1),
+            y: Math.min(board.length - 1, player.y + 1),
+            dir: 1,
+          });
+          if (
+            [
+              player.y <= board.length - 1 - HORIZONTAL_DISTANCE_FROM_CENTER,
+              player.y >= HORIZONTAL_DISTANCE_FROM_CENTER - 1,
+            ].every(Boolean)
+          ) {
+            newPos[1] = 1;
+          }
+          if (
+            [
+              player.x <= board[0].length - 1 - VERTICAL_DISTANCE_FROM_CENTER,
+              player.x >= VERTICAL_DISTANCE_FROM_CENTER - 1,
+            ].every(Boolean)
+          ) {
+            newPos[0] = 1;
+          }
+          setPos(newPos);
+        },
         l: () => {
           setPlayer({
             ...player,
