@@ -1,16 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
+import type { PlayerModel } from '../types/types';
 import styles from './index.module.css';
-
-type PlayerModel = {
-  x: number;
-  y: number;
-  dir: number;
-  hp: number;
-  mp: number;
-  items: {
-    [key: string]: number;
-  };
-};
 
 const yuusha = [
   '0002380009333380090777800907770011122247074444200004442200990990',
