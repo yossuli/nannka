@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { deepCopy } from '../../utils/deepCopy';
 import { fixRGB } from '../../utils/fixRGB';
+import { generate } from '../../utils/generates';
 import { splitRGBColors } from '../../utils/splitRGBColors';
 import styles from './index.module.css';
 
@@ -159,6 +160,7 @@ const Home = () => {
               </button>
             ))}
           </div>
+          <button onClick={() => generate(canvas)} />
         </div>
         <div
           className={styles.canvas}
