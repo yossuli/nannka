@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { Circle, Layer } from 'react-konva';
-import styles from './slitherio.module.css';
+import styles from './index.module.css';
 
 type DirectionModel = { x: number; y: number };
 
