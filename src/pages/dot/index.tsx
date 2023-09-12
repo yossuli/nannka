@@ -6,6 +6,8 @@ import styles from './index.module.css';
 
 const colors = ['#000', '#f00', '#ff0', '#0f0', '#0ff', '#00f', '#f0f', '#fff'];
 
+const rgb: ('r' | 'g' | 'b')[] = ['r', 'g', 'b'];
+
 const Home = () => {
   const [canvas, setCanvas] = useState<string[][]>([['#0000']]);
   const [makeColor, setMakeColor] = useState<[string, string, string, string, string]>([
@@ -28,6 +30,7 @@ const Home = () => {
   const [mouseClicked, setMouseClicked] = useState(false);
 
   const scaleDown = () => {
+    if (canvas.length < 2) return;
     const smallCanvas = canvas
       .map((row) => row.slice(0, canvas.length - 1))
       .slice(0, canvas.length - 1);
@@ -128,63 +131,33 @@ const Home = () => {
             />
           </div>
           <div className={styles.changes}>
-            <button
-              onClick={() => setDrawColor(fixRGB(drawColor, 'r', 1))}
-              style={{
-                backgroundColor: '#f00',
-                borderColor: '#f44',
-              }}
-            >
-              +
-            </button>
-            <button
-              onClick={() => setDrawColor(fixRGB(drawColor, 'g', 1))}
-              style={{
-                backgroundColor: '#0f0',
-                borderColor: '#4f4',
-              }}
-            >
-              +
-            </button>
-            <button
-              onClick={() => setDrawColor(fixRGB(drawColor, 'b', 1))}
-              style={{
-                backgroundColor: '#00f',
-                borderColor: '#44f',
-              }}
-            >
-              +
-            </button>
+            {['#f00', '#0f0', '#00f'].map((color, index) => (
+              <button
+                key={color}
+                onClick={() => setDrawColor(fixRGB(drawColor, rgb[index], 1))}
+                style={{
+                  backgroundColor: color,
+                  borderColor: color.replace('0', '4').replace('0', '4'),
+                }}
+              >
+                +
+              </button>
+            ))}
             <div className={styles.draw} style={{ backgroundColor: drawColor }}>
               <p>{drawColor}</p>
             </div>
-            <button
-              onClick={() => setDrawColor(fixRGB(drawColor, 'r', -1))}
-              style={{
-                backgroundColor: '#f00',
-                borderColor: '#f44',
-              }}
-            >
-              -
-            </button>
-            <button
-              onClick={() => setDrawColor(fixRGB(drawColor, 'g', -1))}
-              style={{
-                backgroundColor: '#0f0',
-                borderColor: '#4f4',
-              }}
-            >
-              -
-            </button>
-            <button
-              onClick={() => setDrawColor(fixRGB(drawColor, 'b', -1))}
-              style={{
-                backgroundColor: '#00f',
-                borderColor: '#44f',
-              }}
-            >
-              -
-            </button>
+            {['#f00', '#0f0', '#00f'].map((color, index) => (
+              <button
+                key={color}
+                onClick={() => setDrawColor(fixRGB(drawColor, rgb[index], -1))}
+                style={{
+                  backgroundColor: color,
+                  borderColor: color.replace('0', '4').replace('0', '4'),
+                }}
+              >
+                -
+              </button>
+            ))}
           </div>
         </div>
         <div
