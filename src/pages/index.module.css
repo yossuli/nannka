@@ -110,7 +110,7 @@
   display: grid;
   overflow: hidden;
   animation: changing;
-  animation-duration: 2s;
+  animation-duration: 5s;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
 }
@@ -167,7 +167,52 @@
     top: -940px;
   }
 
+  51% {
+    top: -960px;
+  }
+
+  59% {
+    top: -1130px;
+  }
+
+  61% {
+    top: -1150px;
+  }
+
+  69% {
+    top: -1320px;
+  }
+
+  71% {
+    top: -1340px;
+  }
+
+  79% {
+    top: -1510px;
+  }
+
+  81% {
+    top: -1530px;
+  }
+
+  89% {
+    top: -1700px;
+  }
+
+  91% {
+    top: 1720px;
+  }
+
+  99.998% {
+    top: -1900px;
+  }
+
+  99.999% {
+    display: none;
+  }
+
   100% {
-    top: -2090px;
+    top: 0;
+    display: none;
   }
 }
