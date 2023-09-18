@@ -95,104 +95,79 @@
   z-index: 7;
 }
 
-.base3 {
-  position: relative;
-
-  /* rotate: 45deg;4 */
-  scale: 2;
-  z-index: 0;
-}
-
-.one2 {
-  position: absolute;
-  left: -50px;
-  top: -50px;
-  width: 100px;
-  height: 100px;
-  background-color: #00f;
-  z-index: 1;
-  scale: 1;
-}
-
-.two2 {
-  position: absolute;
-  top: -37.5px;
-  left: -37.5px;
-  width: 75px;
-  height: 75px;
-  background-color: #0f0;
-  z-index: 2;
-  scale: 1;
-}
-
-.four2 {
-  position: absolute;
-  top: -12.5px;
-  left: -12.5px;
-  width: 25px;
-  height: 25px;
-  background-color: #008;
-  z-index: 4;
-  scale: 1;
-}
-
-.base4 {
-  position: relative;
-
-  /* transform: rotateX(90deg); */
-
-  /* transform: rotateY(90deg); */
-
-  /* transform: rotateZ(90deg); */
-
-  /* rotate: 45deg; */
-
-  /* z-index: 5; */
-}
-
-.five2 {
-  position: absolute;
-  top: -5px;
-  left: -5px;
+.box {
+  display: flex;
   width: 200px;
-  height: 10px;
-  background-color: #800;
-  z-index: 5;
-  scale: 1;
+  height: 200px;
+  border: solid 5px #000;
+  position: relative;
+  overflow: hidden;
 }
 
-.six3 {
+.items {
+  width: 190px;
   position: absolute;
-  top: -5px;
-  left: -5px;
-  width: 150px;
-  height: 10px;
-  background-color: #0ff;
-  z-index: 6;
-  scale: 0.5;
-  transform: rotateZ(90deg);
+  display: grid;
+  overflow: hidden;
+  animation: changing;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
 }
 
-.seven4 {
-  display: none;
-  position: absolute;
-  top: -5px;
-  left: -5px;
-  width: 100px;
-  height: 10px;
-  background-color: #000;
-  z-index: 7;
-  scale: 1;
+.item {
+  display: flex;
+  width: 190px;
+  height: 190px;
+  overflow: hidden;
 }
 
-.hoge {
-  transform: rotateX('angle');
-}
+@keyframes changing {
+  0% {
+    top: 0;
+  }
 
-.parent {
-  /* scale: 2; */
+  1% {
+    top: -10px;
+  }
 
-  transform: rotateZ(1deg);
+  9% {
+    top: -180px;
+  }
 
-  /* z-index: 0; */
+  11% {
+    top: -200px;
+  }
+
+  19% {
+    top: -370px;
+  }
+
+  21% {
+    top: -390px;
+  }
+
+  29% {
+    top: -560px;
+  }
+
+  31% {
+    top: -580px;
+  }
+
+  39% {
+    top: -750px;
+  }
+
+  41% {
+    top: -770px;
+  }
+
+  49% {
+    top: -940px;
+  }
+
+  100% {
+    top: -2090px;
+  }
 }
