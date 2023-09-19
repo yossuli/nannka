@@ -121,7 +121,7 @@ export const Roulette = ({
     isAnimation ? `${styles.border1} ${styles['border1-animation']}` : styles.border1;
 
   return (
-    <div className={stylesRoulette()} style={{ top, left, width, height: width, zIndex,opacity }}>
+    <div className={stylesRoulette()} style={{ top, left, width, height: width, zIndex, opacity }}>
       <div className={stylesBorder2()} style={{ width: width - 10, height: width - 10, zIndex }}>
         <div className={stylesBorder1()} style={{ width: width - 20, height: width - 20, zIndex }}>
           <div
