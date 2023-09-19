@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Roulette } from '../compornents/Roulette/Roulette';
 import styles from './index.module.css';
 
 const colors = [
@@ -51,7 +52,7 @@ const Home = () => {
           </div>
         </div>
         <div className={styles.main}>
-          <div className={styles.box}>
+          {/* <div className={styles.box}>
             <div
               className={styles.items}
               style={{
@@ -67,8 +68,10 @@ const Home = () => {
                 />
               ))}
             </div>
-          </div>
-          {speed}
+          </div> */}
+          {/* {speed} */}
+          <Roulette isMove={isMove} />
+          <button onClick={() => setIsMove(!isMove)} />
         </div>
       </div>
     </div>
