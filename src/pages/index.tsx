@@ -38,8 +38,8 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.separate}>
-        <div className={styles.main}>
+      {/* <div className={styles.separate}> */}
+      {/* <div className={styles.main}>
           <div className={styles.base}>
             <div className={styles.one} />
             <div className={styles.two} />
@@ -50,9 +50,9 @@ const Home = () => {
               <div className={styles.seven} />
             </div>
           </div>
-        </div>
-        <div className={styles.main}>
-          {/* <div className={styles.box}>
+        </div> */}
+      <div className={styles.main}>
+        {/* <div className={styles.box}>
             <div
               className={styles.items}
               style={{
@@ -69,11 +69,11 @@ const Home = () => {
               ))}
             </div>
           </div> */}
-          {/* {speed} */}
-          <Roulette isMove={isMove} />
-          <button onClick={() => setIsMove(!isMove)} />
-        </div>
+        {/* {speed} */}
+        <Roulette isMove={isMove} />
+        <button onClick={() => setIsMove(!isMove)} />
       </div>
+      {/* </div> */}
     </div>
   );
 };
