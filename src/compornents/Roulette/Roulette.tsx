@@ -119,11 +119,6 @@ export const Roulette = ({ isMove }: prop) => {
           </div>
         </div>
       </div>
-      {/* {moveCount}
-      <br />
-      {intervalMS}
-      <br />
-      {noteFrequencies[soundList[moveCount % 6]]} */}
     </div>
   );
 };
