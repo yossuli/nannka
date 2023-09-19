@@ -5,8 +5,6 @@ type prop = {
   isMove: boolean;
 };
 
-const DEFAULT_INTERVAL_MS = 50;
-
 const noteFrequencies: { [note: string]: number } = {
   A3: 220.0,
   'A#3': 233.08,
@@ -37,9 +35,14 @@ const noteFrequencies: { [note: string]: number } = {
 
 const soundList = ['F4', 'G4', 'A4', 'B4', 'C#5', 'D#5'];
 
+const DEFAULT_INTERVAL_MS = 50;
+
+const ANIMATION_DURATION = 2000;
+
 export const Roulette = ({ isMove }: prop) => {
   const [moveCount, setMoveCount] = useState(0);
   const [intervalMS, setIntervalMS] = useState(DEFAULT_INTERVAL_MS);
+  const [isAnimation, setIsAnimation] = useState(false);
 
   // オーディオコンテキストとオシレータのリファレンスを作成
   const audioContextRef = useRef<AudioContext | null>(
@@ -53,6 +56,11 @@ export const Roulette = ({ isMove }: prop) => {
       if (!isMove) {
         if (moveCount === 0) return;
         if (intervalMS > 1500) {
+          setIsAnimation(true);
+          setTimeout(() => {
+            setIsAnimation(false);
+            setMoveCount(0);
+          }, ANIMATION_DURATION);
           return;
         }
         setIntervalMS((prev) => prev * 2);
@@ -87,19 +95,35 @@ export const Roulette = ({ isMove }: prop) => {
     };
   }, [intervalMS, isMove, moveCount]);
 
+  const stylesRoulette = () =>
+    isAnimation ? `${styles.roulette} ${styles['roulette-animation']}` : styles.roulette;
+
+  const stylesBorder2 = () =>
+    isAnimation ? `${styles.border2} ${styles['border2-animation']}` : styles.border2;
+
+  const stylesBorder1 = () =>
+    isAnimation ? `${styles.border1} ${styles['border1-animation']}` : styles.border1;
+
   return (
     <div>
-      <div className={styles.roulette}>
-        <div
-          className={styles.icons}
-          style={{ backgroundPositionX: moveCount * -200, transition: `${String(intervalMS)}ms` }}
-        />
+      <div className={stylesRoulette()}>
+        <div className={stylesBorder2()}>
+          <div className={stylesBorder1()}>
+            <div
+              className={styles.icons}
+              style={{
+                backgroundPositionX: moveCount * -200,
+                transition: `${String(intervalMS)}ms`,
+              }}
+            />
+          </div>
+        </div>
       </div>
-      {moveCount}
+      {/* {moveCount}
       <br />
       {intervalMS}
       <br />
-      {noteFrequencies[soundList[moveCount % 6]]}
+      {noteFrequencies[soundList[moveCount % 6]]} */}
     </div>
   );
 };
