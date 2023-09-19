@@ -1,0 +1,59 @@
+.container {
+  display: grid;
+  width: 100vw;
+  height: 100vh;
+  grid-template-rows: repeat(2, 1fr);
+}
+
+.game {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.player {
+  display: flex;
+  width: 100px;
+  height: 90px;
+  position: absolute;
+  background-image: url('../../../public/images/blue-spaceship.png');
+  background-size: 100px;
+  rotate: 90deg;
+  z-index: 1;
+}
+
+.item-box1 {
+  display: flex;
+  width: 200px;
+  height: 100px;
+  position: absolute;
+  border-radius: 100px 100px 0 0;
+  border: solid 50px #0002;
+  border-bottom: solid 10px #0000;
+  z-index: 2;
+}
+
+.item-box2 {
+  display: flex;
+  width: 200px;
+  height: 100px;
+  position: absolute;
+  border-radius: 0 0 100px 100px;
+  border: solid 50px #0002;
+  border-top: solid 10px #0000;
+  z-index: 2;
+}
+
+.item {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  background-image: url('../../../public/images/icons.png');
+  background-size: 1400%;
+  background-repeat: no-repeat;
+  border: solid 1px #000;
+  background-color: #fff8;
+  border-radius: 5px;
+  z-index: 4;
+}
