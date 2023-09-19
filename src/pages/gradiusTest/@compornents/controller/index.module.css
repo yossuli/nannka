@@ -1,0 +1,34 @@
+.controller {
+  display: grid;
+  height: 200px;
+  background-color: #ccc;
+  grid-template-columns: 200px 1fr 200px;
+}
+
+.move {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  grid-template:
+    '. t .'
+    'l . r'
+    '. u .';
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+
+.move-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #666;
+  border: solid 2px #000;
+}
+
+.move-button:hover {
+  background-color: #aaa;
+}
+
+.move-button:active {
+  scale: 0.9;
+}
