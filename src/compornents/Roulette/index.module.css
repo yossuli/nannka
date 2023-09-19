@@ -1,9 +1,136 @@
 .roulette {
-  width: 220px;
-  height: 220px;
-  border: solid #000 10px;
+  display: flex;
+  width: 230px;
+  height: 230px;
+  border: solid #000 5px;
   position: relative;
   overflow: hidden;
+}
+
+.roulette-animation {
+  animation-name: border3;
+  animation-duration: 500ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes border3 {
+  0% {
+    border-color: #f00;
+  }
+
+  16.666% {
+    border-color: #ff0;
+  }
+
+  33.332% {
+    border-color: #0f0;
+  }
+
+  50% {
+    border-color: #0ff;
+  }
+
+  66.668% {
+    border-color: #00f;
+  }
+
+  83.334% {
+    border-color: #f0f;
+  }
+
+  100% {
+    border-color: #f00;
+  }
+}
+
+.border2 {
+  display: flex;
+  width: 220px;
+  height: 220px;
+  border: solid #000 5px;
+}
+
+.border2-animation {
+  animation-name: border2;
+  animation-duration: 500ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes border2 {
+  0% {
+    border-color: #f0f;
+  }
+
+  16.666% {
+    border-color: #f00;
+  }
+
+  33.332% {
+    border-color: #ff0;
+  }
+
+  50% {
+    border-color: #0f0;
+  }
+
+  66.668% {
+    border-color: #0ff;
+  }
+
+  83.334% {
+    border-color: #00f;
+  }
+
+  100% {
+    border-color: #f0f;
+  }
+}
+
+.border1 {
+  display: flex;
+  width: 210px;
+  height: 210px;
+  border: solid #000 5px;
+  overflow: hidden;
+}
+
+.border1-animation {
+  animation-name: border1;
+  animation-duration: 500ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes border1 {
+  0% {
+    border-color: #00f;
+  }
+
+  16.666% {
+    border-color: #f0f;
+  }
+
+  33.332% {
+    border-color: #f00;
+  }
+
+  50% {
+    border-color: #ff0;
+  }
+
+  66.668% {
+    border-color: #0f0;
+  }
+
+  83.334% {
+    border-color: #0ff;
+  }
+
+  100% {
+    border-color: #00f;
+  }
 }
 
 .icons {
