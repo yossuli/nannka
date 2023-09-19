@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Roulette } from '../compornents/Roulette/Roulette';
 import styles from './index.module.css';
 
 const colors = [
@@ -70,7 +69,7 @@ const Home = () => {
             </div>
           </div> */}
         {/* {speed} */}
-        <Roulette isMove={isMove} />
+        {/* <Roulette isMove={isMove} /> */}
         <button onClick={() => setIsMove(!isMove)} />
       </div>
       {/* </div> */}
