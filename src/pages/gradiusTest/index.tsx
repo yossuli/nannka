@@ -12,70 +12,83 @@ export type PlayerModel = {
     y: number;
   };
   score: number;
-  Items: number[];
+  Items: (number | null)[];
   side: 'left' | 'right';
   isPlaying: boolean;
   startedAt: number;
 };
 
-type Pos = { x: number; y: number };
+const ANIMATION_DURATION = 2000;
 
 const Home = () => {
   const [moveCunt, setMoveCount] = useState(0);
   const [isMoveRoulette, setIsMoveRoulette] = useState(false);
-  const { player, move } = useGradius();
+  const [isViewRoulette, setIsViewRoulette] = useState(false);
+  const [isAnimation, setIsAnimation] = useState(false);
+  const { player, move, getItem, useItem } = useGradius();
 
   const rouletteChange = () => {
+    if (player.Items.every((i) => i !== null)) return;
+    setIsMoveRoulette(!isMoveRoulette);
     if (isMoveRoulette) {
-      //
+      setTimeout(() => {
+        setIsViewRoulette(false);
+        setIsAnimation(true);
+      }, 3200 + 2000);
+      setTimeout(() => {
+        setMoveCount(0);
+        setIsAnimation(false);
+        getItem(moveCunt);
+      }, 3200 + 1000 + 2000);
     } else {
-      //
+      setIsViewRoulette(true);
     }
   };
+
+  const itemStyleHandler = (index: 0 | 1) => {
+    const thisItem = player.Items[index];
+    if (thisItem === null) return { backgroundImage: 'none' };
+    return {
+      backgroundPositionX: -thisItem * 50,
+    };
+  };
+
+  const animationHandler = () => (player.Items[0] === null ? styles.animation : styles.animation2);
 
   return (
     <div className={styles.container}>
       <div className={styles.game}>
-        <div
-          className={styles['item-box1']}
-          style={{
-            top: player.pos.x - 50,
-            left: player.pos.y - 45,
-          }}
-        />
-        <div
-          className={styles.item}
-          style={{
-            top: player.pos.x - 50,
-            left: player.pos.y - 45 + 75,
-            backgroundPositionX: 50 - player.Items[0] * 50,
-          }}
-        />
-        <div
-          className={styles['item-box2']}
-          style={{ top: player.pos.x + 50, left: player.pos.y - 45 }}
-        />
-        <div
-          className={styles.item}
-          style={{
-            top: player.pos.x + 50 + 50,
-            left: player.pos.y - 45 + 75,
-            backgroundPositionX: 50 - player.Items[1] * 50,
-          }}
-        />
-        <Roulette
-          moveCount={moveCunt}
-          setMoveCount={setMoveCount}
-          isMove={isMoveRoulette}
-          top={player.pos.x - 5}
-          left={player.pos.y}
-          width={100}
-          zIndex={4}
-          opacity={0.7}
-        />
-        <div className={styles.player} style={{ top: player.pos.x, left: player.pos.y }} />
+        <div className={styles.base} style={{ top: player.pos.x, left: player.pos.y }}>
+          <div className={styles['item-box1']} />
+          <div className={styles.item1} style={itemStyleHandler(0)} />
+          <div className={styles['item-box2']} />
+          <div className={styles.item2} style={itemStyleHandler(1)} />
+          {isViewRoulette && (
+            <Roulette
+              moveCount={moveCunt}
+              setMoveCount={setMoveCount}
+              isMove={isMoveRoulette}
+              top={-50}
+              left={-50}
+              width={100}
+              zIndex={4}
+              opacity={0.7}
+              animationDuration={2000}
+            />
+          )}
+          {isAnimation && (
+            <div className={animationHandler()} style={{ backgroundPositionX: moveCunt * -70 }} />
+          )}
+          <div className={styles.player} style={{ top: -45, left: -50 }} />
+        </div>
       </div>
-      <Controller player={player} move={move} rouletteChange={rouletteChange} />
+      <Controller
+        player={player}
+        move={move}
+        rouletteChange={rouletteChange}
+        getItem={getItem}
+        useItem={useItem}
+      />
     </div>
   );
 };

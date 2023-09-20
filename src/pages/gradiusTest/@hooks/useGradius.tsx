@@ -18,7 +18,7 @@ export const useGradius = () => {
       y: 50,
     },
     score: 0,
-    Items: [0, 0],
+    Items: [null, null],
     side: 'left',
     isPlaying: true,
     startedAt: 0,
@@ -40,5 +40,12 @@ export const useGradius = () => {
     newItems[itemNum] = 0;
     setPlayer({ ...player, Items: newItems });
   };
-  return { player, move, useItem };
+
+  const getItem = (itemNum: number) => {
+    // if (player.Items.every((i) => i !== null)) return;
+    const newItems =
+      player.Items[0] === null ? [itemNum + 5, player.Items[1]] : [player.Items[0], itemNum + 5];
+    setPlayer({ ...player, Items: newItems });
+  };
+  return { player, move, useItem, getItem };
 };

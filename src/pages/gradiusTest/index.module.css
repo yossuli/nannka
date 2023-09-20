@@ -9,7 +9,14 @@
   display: flex;
   width: 100%;
   height: 100%;
+}
+
+.base {
   position: relative;
+  width: 0;
+  height: 0;
+  background-color: #f00;
+  z-index: 1;
 }
 
 .player {
@@ -28,6 +35,8 @@
   width: 200px;
   height: 100px;
   position: absolute;
+  top: -100px;
+  left: -100px;
   border-radius: 100px 100px 0 0;
   border: solid 50px #0002;
   border-bottom: solid 10px #0000;
@@ -39,21 +48,96 @@
   width: 200px;
   height: 100px;
   position: absolute;
+  top: 0;
+  left: -100px;
   border-radius: 0 0 100px 100px;
   border: solid 50px #0002;
   border-top: solid 10px #0000;
   z-index: 2;
 }
 
-.item {
+.item1 {
   width: 52px;
   height: 52px;
   position: absolute;
+  top: -101px;
+  left: -26px;
   background-image: url('../../../public/images/icons.png');
   background-size: 1400%;
-  background-repeat: no-repeat;
+  background-repeat: repeat-x;
   border: solid 1px #000;
   background-color: #fff8;
   border-radius: 5px;
   z-index: 4;
+}
+
+.item2 {
+  width: 52px;
+  height: 52px;
+  position: absolute;
+  top: 49px;
+  left: -26px;
+  background-image: url('../../../public/images/icons.png');
+  background-size: 1400%;
+  background-repeat: repeat-x;
+  border: solid 1px #000;
+  background-color: #fff8;
+  border-radius: 5px;
+  z-index: 4;
+}
+
+.animation {
+  width: 70px;
+  height: 7dvh;
+  background-image: url('../../../public/images/icons.png');
+  background-size: 1400%;
+  background-repeat: repeat-x;
+  position: absolute;
+  top: -35px;
+  left: -35px;
+  z-index: 5;
+  animation-name: animation;
+  animation-duration: 1000ms;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes animation {
+  0% {
+    top: -35px;
+    left: -35px;
+    scale: 1;
+  }
+
+  100% {
+    top: -110px;
+    scale: calc(5 / 7);
+  }
+}
+
+.animation2 {
+  width: 70px;
+  height: 7dvh;
+  background-image: url('../../../public/images/icons.png');
+  background-size: 1400%;
+  background-repeat: repeat-x;
+  position: absolute;
+  top: -35px;
+  left: -35px;
+  z-index: 5;
+  animation-name: animation2;
+  animation-duration: 1000ms;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes animation2 {
+  0% {
+    top: -35px;
+    left: -35px;
+    scale: 1;
+  }
+
+  100% {
+    top: 40px;
+    scale: calc(5 / 7);
+  }
 }

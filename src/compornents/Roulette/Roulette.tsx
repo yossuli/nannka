@@ -11,6 +11,7 @@ type prop = {
   width: number;
   zIndex: number;
   opacity: number;
+  animationDuration: number;
 };
 
 const noteFrequencies: { [note: string]: number } = {
@@ -45,8 +46,6 @@ const soundList = ['F4', 'G4', 'A4', 'B4', 'C#5', 'D#5'];
 
 const DEFAULT_INTERVAL_MS = 50;
 
-const ANIMATION_DURATION = 2000;
-
 export const Roulette = ({
   isMove,
   moveCount,
@@ -56,6 +55,7 @@ export const Roulette = ({
   width,
   zIndex,
   opacity,
+  animationDuration,
 }: prop) => {
   const [intervalMS, setIntervalMS] = useState(DEFAULT_INTERVAL_MS);
   const [isAnimation, setIsAnimation] = useState(false);
@@ -75,8 +75,8 @@ export const Roulette = ({
           setIsAnimation(true);
           setTimeout(() => {
             setIsAnimation(false);
-            setMoveCount(0);
-          }, ANIMATION_DURATION);
+            // setMoveCount(0);
+          }, animationDuration);
           return;
         }
         setIntervalMS((prev) => prev * 2);
@@ -109,7 +109,7 @@ export const Roulette = ({
         oscillatorRef.current.disconnect();
       }
     };
-  }, [intervalMS, isMove, moveCount, setMoveCount]);
+  }, [intervalMS, isMove, moveCount, setMoveCount, animationDuration]);
 
   const stylesRoulette = () =>
     isAnimation ? `${styles.roulette} ${styles['roulette-animation']}` : styles.roulette;
@@ -127,8 +127,8 @@ export const Roulette = ({
           <div
             className={styles.icons}
             style={{
-              backgroundPositionX: moveCount * -200,
-              transition: `${String(intervalMS)}ms`,
+              backgroundPositionX: moveCount * -(width - 30),
+              transition: `${intervalMS}ms`,
               width: width - 30,
               height: width - 30,
               zIndex,
