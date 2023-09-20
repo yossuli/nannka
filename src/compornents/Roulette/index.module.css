@@ -1,9 +1,10 @@
 .roulette {
   display: flex;
-  border: solid #000 5px;
+  border: solid #0000 5px;
   position: relative;
   overflow: hidden;
-  background-color: #fff;
+
+  /* background-color: #fff; */
 }
 
 .roulette-animation {
@@ -45,7 +46,7 @@
 
 .border2 {
   display: flex;
-  border: solid #000 5px;
+  border: solid #0000 5px;
 }
 
 .border2-animation {
@@ -89,6 +90,8 @@
   display: flex;
   border: solid #000 5px;
   overflow: hidden;
+  background-color: #fff;
+  border-radius: 5px;
 }
 
 .border1-animation {

@@ -33,6 +33,13 @@
   scale: 0.9;
 }
 
+.button {
+  width: calc(100% - 40px);
+  height: 20px;
+  background-color: #aaa;
+  margin: 20px;
+}
+
 .shot {
   display: grid;
   grid-template-rows: 1fr 1fr;
@@ -44,6 +51,8 @@
   background-color: #666;
   border: solid 2px #f00;
   border-radius: 50%;
+  position: relative;
+  overflow: hidden;
 }
 
 .item1 {
@@ -52,21 +61,10 @@
   grid-area: t;
   background-color: #000;
   border: solid 24.5px #fff8;
-  border-bottom: none;
+  border-bottom: 10px #0000 solid;
   border-radius: 98px 98px 0 0;
   opacity: 0.5;
-}
-
-.item1:hover {
-  border-color: #f00;
-}
-
-.item1 > div {
-  width: 147px;
-  height: 73.5px;
-  border-radius: 73.5px 73.5px 0 0;
-  background-color: #000;
-  pointer-events: none;
+  user-select: none;
 }
 
 .item2 {
@@ -75,24 +73,48 @@
   grid-area: u;
   background-color: #000;
   border: solid 24.5px #fff8;
-  border-top: none;
+  border-top: 10px #0000 solid;
   border-radius: 0 0 98px 98px;
   opacity: 0.5;
+  user-select: none;
 }
 
-.item2:hover {
-  border-color: #f00;
+.top {
+  width: 196px;
+  height: 49px;
+  background-color: #0000;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
-.item2 > div {
-  width: 147px;
-  height: 73.5px;
-  border-radius: 0 0 73.5px 73.5px;
-  background-color: #000;
-  pointer-events: none;
-}
-
-.item2 > div:hover {
+/* .top:hover {
   background-color: #f00;
-  pointer-events: none;
+} */
+
+.middle {
+  width: 196px;
+  height: 98px;
+  background-color: #0000;
+  position: absolute;
+  top: 49px;
+  left: 0;
+  user-select: none;
 }
+
+/* .middle:hover {
+  background-color: #f00;
+} */
+
+.bottom {
+  width: 196px;
+  height: 49px;
+  background-color: #0000;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+/* .bottom:hover {
+  background-color: #f00;
+} */
