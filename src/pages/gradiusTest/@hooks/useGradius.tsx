@@ -18,7 +18,7 @@ export const useGradius = () => {
       y: 50,
     },
     score: 0,
-    Items: [],
+    Items: [0, 0],
     side: 'left',
     isPlaying: true,
     startedAt: 0,
@@ -30,12 +30,15 @@ export const useGradius = () => {
         x: prevPlayer.pos.x + moveDirs[dir][1],
         y: prevPlayer.pos.y + moveDirs[dir][0],
       };
-      // console.log(newPlayerPos);
+
       return { ...prevPlayer, pos: newPlayerPos };
     });
   };
 
-  console.log(player.pos);
-
-  return { player, move };
+  const useItem = (itemNum: 0 | 1) => {
+    const newItems = [...player.Items];
+    newItems[itemNum] = 0;
+    setPlayer({ ...player, Items: newItems });
+  };
+  return { player, move, useItem };
 };

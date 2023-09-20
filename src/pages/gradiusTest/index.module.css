@@ -46,8 +46,8 @@
 }
 
 .item {
-  width: 50px;
-  height: 50px;
+  width: 52px;
+  height: 52px;
   position: absolute;
   background-image: url('../../../public/images/icons.png');
   background-size: 1400%;

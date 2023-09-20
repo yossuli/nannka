@@ -1,8 +1,16 @@
+import type { Dispatch, SetStateAction } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import styles from './index.module.css';
 
 type prop = {
   isMove: boolean;
+  moveCount: number;
+  setMoveCount: Dispatch<SetStateAction<number>>;
+  top: number;
+  left: number;
+  width: number;
+  zIndex: number;
+  opacity: number;
 };
 
 const noteFrequencies: { [note: string]: number } = {
@@ -39,8 +47,16 @@ const DEFAULT_INTERVAL_MS = 50;
 
 const ANIMATION_DURATION = 2000;
 
-export const Roulette = ({ isMove }: prop) => {
-  const [moveCount, setMoveCount] = useState(0);
+export const Roulette = ({
+  isMove,
+  moveCount,
+  setMoveCount,
+  top,
+  left,
+  width,
+  zIndex,
+  opacity,
+}: prop) => {
   const [intervalMS, setIntervalMS] = useState(DEFAULT_INTERVAL_MS);
   const [isAnimation, setIsAnimation] = useState(false);
 
@@ -93,7 +109,7 @@ export const Roulette = ({ isMove }: prop) => {
         oscillatorRef.current.disconnect();
       }
     };
-  }, [intervalMS, isMove, moveCount]);
+  }, [intervalMS, isMove, moveCount, setMoveCount]);
 
   const stylesRoulette = () =>
     isAnimation ? `${styles.roulette} ${styles['roulette-animation']}` : styles.roulette;
@@ -105,18 +121,19 @@ export const Roulette = ({ isMove }: prop) => {
     isAnimation ? `${styles.border1} ${styles['border1-animation']}` : styles.border1;
 
   return (
-    <div>
-      <div className={stylesRoulette()}>
-        <div className={stylesBorder2()}>
-          <div className={stylesBorder1()}>
-            <div
-              className={styles.icons}
-              style={{
-                backgroundPositionX: moveCount * -200,
-                transition: `${String(intervalMS)}ms`,
-              }}
-            />
-          </div>
+    <div className={stylesRoulette()} style={{ top, left, width, height: width, zIndex, opacity }}>
+      <div className={stylesBorder2()} style={{ width: width - 10, height: width - 10, zIndex }}>
+        <div className={stylesBorder1()} style={{ width: width - 20, height: width - 20, zIndex }}>
+          <div
+            className={styles.icons}
+            style={{
+              backgroundPositionX: moveCount * -200,
+              transition: `${String(intervalMS)}ms`,
+              width: width - 30,
+              height: width - 30,
+              zIndex,
+            }}
+          />
         </div>
       </div>
     </div>
