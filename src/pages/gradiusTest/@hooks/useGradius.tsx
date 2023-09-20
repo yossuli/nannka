@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import type { PlayerModel } from '..';
+import { useEffect, useState } from 'react';
+import type { BulletModel, PlayerModel } from '..';
 import type { Dir } from '../@compornents/controller/Controller';
 
 const moveDirs = {
@@ -11,18 +11,34 @@ const moveDirs = {
 
 export const useGradius = () => {
   const [player, setPlayer] = useState<PlayerModel>({
-    id: 'a',
-    name: 'A',
     pos: {
       x: 50,
       y: 50,
     },
-    score: 0,
     Items: [null, null],
-    side: 'left',
-    isPlaying: true,
-    startedAt: 0,
   });
+  const [bullets, setBullets] = useState<BulletModel[]>([]);
+
+  useEffect(() => {
+    const cancelId = setInterval(() => {
+      const updateBullet = (prev: BulletModel[]) => {
+        const newBullets = prev
+          .filter((bullet) => bullet.pos.x < player.pos.x + 600)
+          .map((bullet) => ({
+            ...bullet,
+            pos: {
+              x: bullet.pos.x + bullet.dir.x,
+              y: bullet.pos.y + bullet.dir.y,
+            },
+          }));
+
+        return newBullets;
+      };
+      setBullets((prev) => updateBullet(prev));
+    }, 100);
+    return () => clearInterval(cancelId);
+  }, [setBullets, player.pos.x]);
+
   const move = (dir: Dir) => {
     setPlayer((prevPlayer) => {
       if (prevPlayer === undefined) return prevPlayer;
@@ -36,8 +52,17 @@ export const useGradius = () => {
   };
 
   const useItem = (itemNum: 0 | 1) => {
+    const newBUllets = [-2, -1, 0, 1, 2].map((y) => ({
+      pos: {
+        x: player.pos.y,
+        y: player.pos.x,
+      },
+      dir: { x: 10, y },
+    }));
+    setBullets([...structuredClone(bullets), ...newBUllets]);
+
     const newItems = [...player.Items];
-    newItems[itemNum] = 0;
+    newItems[itemNum] = null;
     setPlayer({ ...player, Items: newItems });
   };
 
@@ -47,5 +72,19 @@ export const useGradius = () => {
       player.Items[0] === null ? [itemNum + 5, player.Items[1]] : [player.Items[0], itemNum + 5];
     setPlayer({ ...player, Items: newItems });
   };
-  return { player, move, useItem, getItem };
+
+  const shoot = () => {
+    const newBullets: BulletModel[] = [
+      ...structuredClone(bullets),
+      {
+        pos: {
+          x: player.pos.y,
+          y: player.pos.x,
+        },
+        dir: { x: 10, y: 0 },
+      },
+    ];
+    setBullets(newBullets);
+  };
+  return { player, bullets, move, useItem, getItem, shoot };
 };

@@ -55,6 +55,10 @@
   overflow: hidden;
 }
 
+.shot:active {
+  background-color: #aaa;
+}
+
 .item1 {
   width: 196px;
   height: 98px;
