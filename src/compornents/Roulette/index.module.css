@@ -3,6 +3,7 @@
   border: solid #0000 5px;
   position: relative;
   overflow: hidden;
+  border-radius: 15px;
 
   /* background-color: #fff; */
 }
@@ -47,6 +48,7 @@
 .border2 {
   display: flex;
   border: solid #0000 5px;
+  border-radius: 10px;
 }
 
 .border2-animation {

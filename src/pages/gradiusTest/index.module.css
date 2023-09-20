@@ -19,6 +19,14 @@
   z-index: 1;
 }
 
+.bullet {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #f00;
+  border-radius: 50%;
+}
+
 .player {
   display: flex;
   width: 100px;

@@ -5,17 +5,22 @@ import { useGradius } from './@hooks/useGradius';
 import styles from './index.module.css';
 
 export type PlayerModel = {
-  id: string;
-  name: string;
   pos: {
     x: number;
     y: number;
   };
-  score: number;
   Items: (number | null)[];
-  side: 'left' | 'right';
-  isPlaying: boolean;
-  startedAt: number;
+};
+
+export type BulletModel = {
+  pos: {
+    x: number;
+    y: number;
+  };
+  dir: {
+    x: number;
+    y: number;
+  };
 };
 
 const ANIMATION_DURATION = 2000;
@@ -25,7 +30,7 @@ const Home = () => {
   const [isMoveRoulette, setIsMoveRoulette] = useState(false);
   const [isViewRoulette, setIsViewRoulette] = useState(false);
   const [isAnimation, setIsAnimation] = useState(false);
-  const { player, move, getItem, useItem } = useGradius();
+  const { player, bullets, move, getItem, useItem, shoot } = useGradius();
 
   const rouletteChange = () => {
     if (player.Items.every((i) => i !== null)) return;
@@ -58,6 +63,18 @@ const Home = () => {
   return (
     <div className={styles.container}>
       <div className={styles.game}>
+        <div className={styles.base}>
+          {bullets.map((bullet, i) => (
+            <div
+              className={styles.bullet}
+              style={{
+                top: bullet.pos.y,
+                left: bullet.pos.x,
+              }}
+              key={i}
+            />
+          ))}
+        </div>
         <div className={styles.base} style={{ top: player.pos.x, left: player.pos.y }}>
           <div className={styles['item-box1']} />
           <div className={styles.item1} style={itemStyleHandler(0)} />
@@ -86,8 +103,9 @@ const Home = () => {
         player={player}
         move={move}
         rouletteChange={rouletteChange}
-        getItem={getItem}
+        // getItem={getItem}
         useItem={useItem}
+        shoot={shoot}
       />
     </div>
   );
