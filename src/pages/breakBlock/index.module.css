@@ -9,15 +9,29 @@
 .breakBlock {
   display: grid;
   grid-template:
+    '  boll   '
+    'blockArea'
+    '    .    '
+    '   bar   '
+    '    .    ';
+  grid-template-rows: 0 75px 1fr 5px 20px;
+  width: 250px;
+  height: 500px;
+}
+
+.blockArea {
+  display: grid;
+  grid-area: blockArea;
+  grid-template:
     'a b c d e'
     'f g h i j'
     'k l m n o';
   grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(20, 1fr);
+  grid-template-rows: repeat(3, 1fr);
   gap: 1px;
   padding: 0.5px;
   width: 250px;
-  height: 500px;
+  height: 75px;
 }
 
 .block {
@@ -25,4 +39,21 @@
   height: 100%;
   border-radius: 5px;
   border: solid 2px;
+}
+
+.bar {
+  grid-area: bar;
+  display: flex;
+  width: 50px;
+  height: 5px;
+  background-color: #888;
+  bottom: 0;
+}
+
+.boll {
+  grid-area: boll;
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background-color: #f00;
 }
