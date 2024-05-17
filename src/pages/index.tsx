@@ -2,7 +2,16 @@ import { useRouter } from 'next/router';
 
 const Home = () => {
   const router = useRouter();
-  const pages = ['2darray', 'bitsweeper', 'dot', 'gradiusTest', 'rpg', 'slitherio', 'breakBlock'];
+  const pages = [
+    '2darray',
+    'bitsweeper',
+    'dot',
+    'gradiusTest',
+    'rpg',
+    'slitherio',
+    'breakBlock',
+    'effect',
+  ];
 
   return (
     <div>
